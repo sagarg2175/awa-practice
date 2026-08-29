@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Create .env file
-        run: echo "HttpPort=${{ secrets.HTTPPORT }}" >> .env
+        run: echo "HTTP_PORT=${{ secrets.HTTPPORT }}" >> .env
 
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKERPWD }}" | docker login -u "${{ secrets.DOCKERUSERNAME }}" --password-stdin
@@ -39,4 +39,4 @@ jobs:
         run: docker rm -f go-app-container || true
 
       - name: Run Docker container
-        run: docker run -d --name go-app-container -p 4040:4040 sagar2175/aws-practice:latest
+        run: docker run -d --name go-app-container -p 4040:4040 -e HTTP_PORT=4040 sagar2175/aws-practice:latest
