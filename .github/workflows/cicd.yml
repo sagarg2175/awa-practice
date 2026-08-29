@@ -36,4 +36,10 @@ jobs:
         run: docker rm -f go-app-container || true
 
       - name: Run Docker container
-        run: docker run -d --name go-app-container -p 4040:4040 -e HTTP_PORT=4040 sagar2175/aws-practice:latest
+        run: |
+          docker run -d \
+            --name go-app-container \
+            --network app-network \
+            -p 4040:4040 \
+            -e HTTP_PORT=4040 \
+            sagar2175/aws-practice:latest
