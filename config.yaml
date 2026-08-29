@@ -7,8 +7,8 @@ http_allowed_origins: "*"
 
 log_level: "Debug"
 
-db_host: "localhost"
-db_port: "5433"
+db_host: "postgres"
+db_port: "5432"
 db_database: "scratchdb"
 db_username: "postgres"
 db_password: "sagar2175"
