@@ -17,7 +17,7 @@ func main() {
 
 	ctx := context.Background()
 
-	db, err := repo.NewDb(ctx)
+	db, err := repo.NewDb(ctx, cfg)
 	if err != nil {
 		fmt.Printf("error in db connection: %v\n", err)
 		os.Exit(1)

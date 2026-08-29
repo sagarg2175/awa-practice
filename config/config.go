@@ -10,19 +10,23 @@ import (
 )
 
 type Config struct {
-	AppName           string
-	AppEnv            string
-	DBConnection      string
-	TokenSymmetricKey string
-	HttpUrl           string
-	HttpPort          string
-	DBHost            string
-	DBPort            string
-	DBdatabase        string
-	DBUsername        string
-	DBPassword        string
-	JWTSecretKey      string
-	JWTTokenDuration  time.Duration
+	AppName           string        `mapstructure:"app_name"`
+	AppEnv            string        `mapstructure:"app_env"`
+	DBConnection      string        `mapstructure:"db_connection"`
+	TokenSymmetricKey string        `mapstructure:"token_symmetric_key"`
+	HttpUrl            string        `mapstructure:"http_url"`
+	HttpPort           string        `mapstructure:"http_port"`
+	HttpAllowedOrigins string       `mapstructure:"http_allowed_origins"`
+	LogLevel           string        `mapstructure:"log_level"`
+
+	DBHost            string        `mapstructure:"db_host"`
+	DBPort            string        `mapstructure:"db_port"`
+	DBdatabase        string        `mapstructure:"db_database"`
+	DBUsername        string        `mapstructure:"db_username"`
+	DBPassword        string        `mapstructure:"db_password"`
+
+	JWTSecretKey      string        `mapstructure:"jwt_secret_key"`
+	JWTTokenDuration  time.Duration `mapstructure:"jwt_token_duration"`
 }
 
 // func Load() Config {
