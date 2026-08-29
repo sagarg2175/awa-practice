@@ -10,17 +10,18 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 )
 
+func init() {
+	config.Load()
+}
+
 func main() {
-	cfg := config.Load()
-
 	ctx := context.Background()
-
 	db, err := repo.NewDb(ctx)
 	if err != nil {
-		fmt.Printf("error in db connection: %v\n", err)
-		os.Exit(1)
+		fmt.Errorf("error in db connection %s", err)
 	}
 
 	awsRepo := repo.NewAwsProjRepo(db)
@@ -28,29 +29,31 @@ func main() {
 
 	router, err := handler.NewRouter(*awsHandler)
 	if err != nil {
-		fmt.Printf("Error initializing router: %v\n", err)
+		fmt.Errorf("Error initializing router %s", err)
 		os.Exit(1)
 	}
 
 	srv := &http.Server{
-		Addr:    ":" + cfg.HttpPort,
+		Addr:    ":" + os.Getenv("HTTP_PORT"),
 		Handler: router,
 	}
 
-	fmt.Println("Starting server on", srv.Addr)
-
 	go func() {
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			fmt.Println("ListenAndServe error:", err)
+			fmt.Println("listen: %s\n", err)
 		}
 	}()
 
 	quit := make(chan os.Signal, 1)
+
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 
 	sig := <-quit
 
-	duration := cfg.JWTTokenDuration
+	duration, err := time.ParseDuration(os.Getenv("SHUTDOWN_TIME"))
+	if err != nil {
+		fmt.Println("Error in parsing duration", err)
+	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), duration)
 	defer cancel()
@@ -62,5 +65,5 @@ func main() {
 	<-ctx.Done()
 	fmt.Println("Server exiting", sig)
 
-	db.Close()
+	defer db.Close()
 }
