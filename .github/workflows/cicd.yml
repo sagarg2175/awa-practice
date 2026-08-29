@@ -1,0 +1,6 @@
+# name : Deploy Go application
+
+# on :
+#    push:
+#       branches:
+#        -
