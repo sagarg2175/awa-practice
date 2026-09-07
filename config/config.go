@@ -10,23 +10,28 @@ import (
 )
 
 type Config struct {
-	AppName           string        `mapstructure:"app_name"`
-	AppEnv            string        `mapstructure:"app_env"`
-	DBConnection      string        `mapstructure:"db_connection"`
-	TokenSymmetricKey string        `mapstructure:"token_symmetric_key"`
-	HttpUrl            string        `mapstructure:"http_url"`
-	HttpPort           string        `mapstructure:"http_port"`
-	HttpAllowedOrigins string       `mapstructure:"http_allowed_origins"`
-	LogLevel           string        `mapstructure:"log_level"`
+	AppName            string `mapstructure:"app_name"`
+	AppEnv             string `mapstructure:"app_env"`
+	DBConnection       string `mapstructure:"db_connection"`
+	TokenSymmetricKey  string `mapstructure:"token_symmetric_key"`
+	HttpUrl            string `mapstructure:"http_url"`
+	HttpPort           string `mapstructure:"http_port"`
+	HttpAllowedOrigins string `mapstructure:"http_allowed_origins"`
+	LogLevel           string `mapstructure:"log_level"`
 
-	DBHost            string        `mapstructure:"db_host"`
-	DBPort            string        `mapstructure:"db_port"`
-	DBdatabase        string        `mapstructure:"db_database"`
-	DBUsername        string        `mapstructure:"db_username"`
-	DBPassword        string        `mapstructure:"db_password"`
+	DBHost     string `mapstructure:"db_host"`
+	DBPort     string `mapstructure:"db_port"`
+	DBdatabase string `mapstructure:"db_database"`
+	DBUsername string `mapstructure:"db_username"`
+	DBPassword string `mapstructure:"db_password"`
 
-	JWTSecretKey      string        `mapstructure:"jwt_secret_key"`
-	JWTTokenDuration  time.Duration `mapstructure:"jwt_token_duration"`
+	JWTSecretKey     string        `mapstructure:"jwt_secret_key"`
+	JWTTokenDuration time.Duration `mapstructure:"jwt_token_duration"`
+	// AWS S3
+	AWSRegion     string `mapstructure:"aws_region"`
+	AWSBucketName string `mapstructure:"aws_bucket_name"`
+	AWSAccessKey  string `mapstructure:"aws_access_key"`
+	AWSSecretKey  string `mapstructure:"aws_secret_key"`
 }
 
 // func Load() Config {
@@ -202,6 +207,22 @@ func Load() Config {
 	}
 
 	if err := viper.BindEnv("jwt_token_duration", "JWT_TOKEN_DURATION"); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := viper.BindEnv("aws_region", "AWS_REGION"); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := viper.BindEnv("aws_bucket_name", "AWS_BUCKET_NAME"); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := viper.BindEnv("aws_access_key", "AWS_ACCESS_KEY_ID"); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := viper.BindEnv("aws_secret_key", "AWS_SECRET_ACCESS_KEY"); err != nil {
 		log.Fatal(err)
 	}
 

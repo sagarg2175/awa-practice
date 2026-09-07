@@ -7,11 +7,23 @@ http_allowed_origins: "*"
 
 log_level: "Debug"
 
-db_host: "postgres"
-db_port: "5432"
+# db_host: "postgres"
+# db_port: "5432"
+# db_database: "scratchdb"
+# db_username: "postgres"
+# db_password: "sagar2175"
+
+db_host: "localhost"
+db_port: "5433"
 db_database: "scratchdb"
 db_username: "postgres"
 db_password: "sagar2175"
 
 jwt_secret_key: "this_is_a_super_secret_key_for_jwt_token_123456"
 jwt_token_duration: "1h"
+
+aws_region: "ap-south-1"
+aws_bucket_name: "go-bucket21"
+
+aws_access_key_id: ""
+aws_secret_access_key: ""

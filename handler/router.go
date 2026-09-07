@@ -34,6 +34,7 @@ func NewRouter(awshandler AwsProjHandler) (*Router, error) {
 	api := router.Group("/aws-api")
 	{
 		api.POST("")
+		api.POST("/upload", awshandler.AwsProjUpload)
 	}
 
 	return &Router{router}, nil
